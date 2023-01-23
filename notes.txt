@@ -1,0 +1,4 @@
+last transaction date
+product line
+inventory_dept
+emp_name
