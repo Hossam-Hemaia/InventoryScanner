@@ -18,7 +18,16 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + file.originalname);
   },
 });
-
+// const options = {
+//   allow: {
+//     origin: "*",
+//     methods: "GET, POST, PUT, DELETE",
+//     headers: "Content-Type, Authorization, Content-disposition",
+//   },
+//   max: {
+//     age: null,
+//   },
+// };
 const app = express();
 dotenv.config();
 
@@ -28,6 +37,7 @@ app.use(compression());
 
 app.use(multer({ storage: storage }).single("image"));
 app.use("/images", express.static(path.join(__dirname, "images")));
+app.use("/barcodes", express.static(path.join(__dirname, "barcodes")));
 
 const initDataBaseConnection = async () => {
   await dbConnect.init();

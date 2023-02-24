@@ -82,7 +82,6 @@ exports.postGenerateBarcode = async (req, res, next) => {
 
 exports.postGenBulkBarcode = async (req, res, next) => {
   const printDetails = req.body.printDetails;
-  console.log(printDetails);
   try {
     const connection = await dbConnect.getConnection();
     const paperSettings = await connection.execute(
@@ -109,19 +108,21 @@ exports.postGenBulkBarcode = async (req, res, next) => {
     }
     const reportName = "barcodes-" + Date.now() + ".pdf";
     const reportPath = path.join("barcodes", reportName);
-    const Doc = new PdfKit({ size: [pageWidth, pageHeight], margin: 1 });
+    const logoPath = "./images/mjTransparent.png";
+    const fileUrl = `${req.protocol}s://${req.get(
+      "host"
+    )}/barcodes/${reportName}`;
+    const Doc = new PdfKit({ size: [pageWidth, pageHeight], margin: 0.5 });
     Doc.pipe(fs.createWriteStream(reportPath));
-    Doc.pipe(res);
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-      "Content-disposition",
-      'inline; filename="' + reportName + '"'
-    );
-    console.log(res);
     labels.forEach((barcodeImage, idx) => {
-      Doc.image(barcodeImage, 5, 10, {
-        width: 130,
+      Doc.image(logoPath, 12, 0, {
+        width: 110,
         height: 45,
+        align: "center",
+      });
+      Doc.image(barcodeImage, 7, 34, {
+        width: 130,
+        height: 35,
         align: "center",
       });
       if (idx < labels.length - 1) {
@@ -129,6 +130,10 @@ exports.postGenBulkBarcode = async (req, res, next) => {
       }
     });
     Doc.end();
+    res.status(201).json({
+      success: true,
+      barcodes: fileUrl,
+    });
   } catch (err) {
     next(err);
   }

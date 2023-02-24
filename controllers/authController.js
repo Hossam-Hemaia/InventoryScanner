@@ -3,6 +3,7 @@ const dbConnect = require("../dbConnect/dbConnect");
 
 exports.postUserLogin = async (req, res, next) => {
   const { userName, password } = req.body;
+  console.log(userName, password);
   try {
     const connection = await dbConnect.getConnection();
     const user = await connection.execute(

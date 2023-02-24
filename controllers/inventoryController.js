@@ -7,7 +7,7 @@ exports.getAssetDetails = async (req, res, next) => {
     const asset = await connection.execute(
       `SELECT ASSET_NUMBER, DESCRIPTION, CAT_MAJOR, SERIAL_NUMBER, PLATE_NUMBER,
       LOCATION, SUB_INVENTORY, EMP_NUMBER, EMP_NAME, ASSIGN_FROM_DATE, LAST_UPDATE_DATE, QTY,
-      URL_IMG, PRODUCTION_LINE FROM XXASSET_TRANSACTIONS WHERE ASSET_NUMBER = ${assetNumber}`
+      URL_IMG, PRODUCTION_LINE, NOTES FROM XXASSET_TRANSACTIONS WHERE ASSET_NUMBER = ${assetNumber}`
     );
     if (asset.rows.length === 0) {
       return res
@@ -59,6 +59,7 @@ exports.putUpdateAsset = async (req, res, next) => {
     assignFromDate,
     quantity,
     productionLine,
+    notes,
   } = req.body;
   const image = req.file;
   try {
@@ -69,8 +70,8 @@ exports.putUpdateAsset = async (req, res, next) => {
       await connection.execute(
         `UPDATE XXASSET_TRANSACTIONS SET LOCATION = '${location}', SUB_INVENTORY = '${inventory}',
          EMP_NUMBER = '${employeeNumber}', EMP_NAME = '${employeeName}', ASSIGN_FROM_DATE = '${date}', 
-         QTY = '${quantity}', URL_IMG='${imagePath}', PRODUCTION_LINE = '${productionLine}'
-         WHERE ASSET_NUMBER = ${assetNumber}`
+         QTY = '${quantity}', URL_IMG='${imagePath}', PRODUCTION_LINE = '${productionLine}',
+         NOTES = '${notes}' WHERE ASSET_NUMBER = ${assetNumber}`
       );
       await connection.tpcCommit();
       const transactionId = await connection.execute(
@@ -86,7 +87,7 @@ exports.putUpdateAsset = async (req, res, next) => {
       await connection.execute(
         `UPDATE XXASSET_TRANSACTIONS SET LOCATION = '${location}', SUB_INVENTORY = '${inventory}',
         EMP_NUMBER = '${employeeNumber}', ASSIGN_FROM_DATE = '${date}', QTY = '${quantity}',
-        PRODUCTION_LINE = '${productionLine}' WHERE ASSET_NUMBER = ${assetNumber}`
+        PRODUCTION_LINE = '${productionLine}', NOTES = '${notes}' WHERE ASSET_NUMBER = ${assetNumber}`
       );
       await connection.tpcCommit();
       const transactionId = await connection.execute(
