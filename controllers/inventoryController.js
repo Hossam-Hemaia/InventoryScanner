@@ -86,7 +86,7 @@ exports.putUpdateAsset = async (req, res, next) => {
       const date = new Date(assignFromDate).toLocaleDateString();
       await connection.execute(
         `UPDATE XXASSET_TRANSACTIONS SET LOCATION = '${location}', SUB_INVENTORY = '${inventory}',
-        EMP_NUMBER = '${employeeNumber}', ASSIGN_FROM_DATE = '${date}', QTY = '${quantity}',
+        EMP_NUMBER = '${employeeNumber}', EMP_NAME = '${employeeName}', ASSIGN_FROM_DATE = '${date}', QTY = '${quantity}',
         PRODUCTION_LINE = '${productionLine}', NOTES = '${notes}' WHERE ASSET_NUMBER = ${assetNumber}`
       );
       await connection.tpcCommit();
@@ -106,11 +106,13 @@ exports.putUpdateAsset = async (req, res, next) => {
 
 exports.getLocations = async (req, res, next) => {
   const searchTerm = req.query.searchTerm.toUpperCase();
+  const username = req.query.username;
   try {
     const connection = await dbConnect.getConnection();
     const locations = await connection.execute(
-      `SELECT * FROM XX_ASSET_LOCATION WHERE upper(LOCATION) LIKE '%${searchTerm}%'
-      OR upper(CITY) LIKE '%${searchTerm}%' OR upper(DEPT) LIKE '%${searchTerm}%'`
+      `SELECT * FROM XX_ASSET_LOCATION a , LOCATION_ROLL b  where a.LOCATION_ID = b.LOCATION
+       and upper(b.user_id) = upper('${username}') and  upper(a.LOCATION) LIKE '%${searchTerm}%'
+      OR upper(a.CITY) LIKE '%${searchTerm}%' OR upper(a.DEPT) LIKE '%${searchTerm}%'`
     );
     res.status(200).json({ success: true, locations: locations });
   } catch (err) {
