@@ -49,7 +49,7 @@ exports.postCreateAsset = async (req, res, next) => {
   }
 };
 
-exports.putUpdateAsset = async (req, res, next) => {
+exports.postUpdateAsset = async (req, res, next) => {
   const {
     assetNumber,
     location,

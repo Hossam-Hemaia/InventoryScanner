@@ -7,7 +7,7 @@ router.get("/asset/details", inventoryController.getAssetDetails);
 
 router.post("/create/asset", inventoryController.postCreateAsset);
 
-router.put("/update/asset", inventoryController.putUpdateAsset);
+router.post("/update/asset", inventoryController.postUpdateAsset);
 
 router.get("/locations", inventoryController.getLocations);
 

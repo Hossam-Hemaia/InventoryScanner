@@ -1,0 +1,338 @@
+{
+	"info": {
+		"_postman_id": "541d5b34-35d0-4759-b908-f1123e7776ee",
+		"name": "Inventory",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19770103"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "User Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userName\": \"hoss\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://inventory.gooadmin.art/api/v1/user/login",
+							"protocol": "https",
+							"host": [
+								"inventory",
+								"gooadmin",
+								"art"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory",
+			"item": [
+				{
+					"name": "Get Asset Data",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://inventory.gooadmin.art/api/v1/asset/details?assetNumber=10067003",
+							"protocol": "https",
+							"host": [
+								"inventory",
+								"gooadmin",
+								"art"
+							],
+							"path": [
+								"api",
+								"v1",
+								"asset",
+								"details"
+							],
+							"query": [
+								{
+									"key": "assetNumber",
+									"value": "10067003"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Asset",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "assetNumber",
+									"value": "10067003",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "Jeddah",
+									"type": "text"
+								},
+								{
+									"key": "inventory",
+									"value": "11",
+									"type": "text"
+								},
+								{
+									"key": "employeeNumber",
+									"value": "101",
+									"type": "text"
+								},
+								{
+									"key": "employeeName",
+									"value": "نور",
+									"type": "text"
+								},
+								{
+									"key": "assignFromDate",
+									"value": "01/01/2022",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/hossam/Downloads/2587702.jpg"
+								},
+								{
+									"key": "productionLine",
+									"value": "AKEA",
+									"type": "text"
+								},
+								{
+									"key": "notes",
+									"value": "تعديل اسم الموظف",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://inventory.gooadmin.art/api/v1/update/asset",
+							"protocol": "https",
+							"host": [
+								"inventory",
+								"gooadmin",
+								"art"
+							],
+							"path": [
+								"api",
+								"v1",
+								"update",
+								"asset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get locations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5500/api/v1/locations?searchTerm=الدوا&username=fahad",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5500",
+							"path": [
+								"api",
+								"v1",
+								"locations"
+							],
+							"query": [
+								{
+									"key": "searchTerm",
+									"value": "الدوا"
+								},
+								{
+									"key": "username",
+									"value": "fahad"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all employees",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://inventory.gooadmin.art/api/v1/employees?searchTerm=SA",
+							"protocol": "https",
+							"host": [
+								"inventory",
+								"gooadmin",
+								"art"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employees"
+							],
+							"query": [
+								{
+									"key": "searchTerm",
+									"value": "SA"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "barcodeGen",
+			"item": [
+				{
+					"name": "Generate Barcode",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"printDetails\": [\n        {\"assetNumber\": 10067521, \"numberOfBarcodes\": 5},\n        {\"assetNumber\": 10067003, \"numberOfBarcodes\": 10},\n        {\"assetNumber\": 10067014, \"numberOfBarcodes\": 15}\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://inventory.gooadmin.art/api/v1/generate/barcode",
+							"protocol": "https",
+							"host": [
+								"inventory",
+								"gooadmin",
+								"art"
+							],
+							"path": [
+								"api",
+								"v1",
+								"generate",
+								"barcode"
+							],
+							"query": [
+								{
+									"key": "assetNumber",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "numberOfBarcodes",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Paper Size",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"paperWidth\": 5,\n    \"paperHeight\": 2.5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://inventory.gooadmin.art/api/v1/set/paperSize",
+							"protocol": "https",
+							"host": [
+								"inventory",
+								"gooadmin",
+								"art"
+							],
+							"path": [
+								"api",
+								"v1",
+								"set",
+								"paperSize"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generat Barcode Range",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"printDetails\": {\n        \"range\": {\n            \"from\": 10067001,\n            \"to\": 10067010\n        },\n        \"number\": 2\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://inventory.gooadmin.art/api/v1/generate/range",
+							"protocol": "https",
+							"host": [
+								"inventory",
+								"gooadmin",
+								"art"
+							],
+							"path": [
+								"api",
+								"v1",
+								"generate",
+								"range"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
