@@ -68,10 +68,10 @@ exports.putUpdateAsset = async (req, res, next) => {
       const imagePath = `${req.protocol}s://${req.hostname}/${image.path}`;
       const date = new Date(assignFromDate).toLocaleDateString();
       await connection.execute(
-        `UPDATE XXASSET_TRANSACTIONS SET LOCATION = '${location}', SUB_INVENTORY = '${inventory}',
-         EMP_NUMBER = '${employeeNumber}', EMP_NAME = '${employeeName}', ASSIGN_FROM_DATE = '${date}', 
-         QTY = '${quantity}', URL_IMG='${imagePath}', PRODUCTION_LINE = '${productionLine}',
-         NOTES = '${notes}' WHERE ASSET_NUMBER = ${assetNumber}`
+        `INSERT INTO XXASSET_TRANSACTIONS (LOCATION, SUB_INVENTORY, EMP_NUMBER, EMP_NAME, ASSIGN_FROM_DATE,
+         QTY, URL_IMG, PRODUCTION_LINE, NOTES, ASSET_NUMBER) VALUES('${location}', '${inventory}',
+         '${employeeNumber}', '${employeeName}', '${date}', '${quantity}', '${imagePath}', '${productionLine}',
+         '${notes}', ${assetNumber})`
       );
       await connection.tpcCommit();
       const transactionId = await connection.execute(
@@ -85,9 +85,10 @@ exports.putUpdateAsset = async (req, res, next) => {
     } else {
       const date = new Date(assignFromDate).toLocaleDateString();
       await connection.execute(
-        `UPDATE XXASSET_TRANSACTIONS SET LOCATION = '${location}', SUB_INVENTORY = '${inventory}',
-        EMP_NUMBER = '${employeeNumber}', EMP_NAME = '${employeeName}', ASSIGN_FROM_DATE = '${date}', QTY = '${quantity}',
-        PRODUCTION_LINE = '${productionLine}', NOTES = '${notes}' WHERE ASSET_NUMBER = ${assetNumber}`
+        `INSERT INTO XXASSET_TRANSACTIONS (LOCATION, SUB_INVENTORY, EMP_NUMBER, EMP_NAME, ASSIGN_FROM_DATE,
+        QTY, URL_IMG, PRODUCTION_LINE, NOTES, ASSET_NUMBER) VALUES('${location}', '${inventory}',
+        '${employeeNumber}', '${employeeName}', '${date}', '${quantity}', '${imagePath}', '${productionLine}',
+        '${notes}', ${assetNumber})`
       );
       await connection.tpcCommit();
       const transactionId = await connection.execute(
