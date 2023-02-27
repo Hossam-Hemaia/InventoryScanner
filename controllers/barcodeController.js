@@ -122,9 +122,9 @@ exports.postGenBulkBarcode = async (req, res, next) => {
     const Doc = new PdfKit({ size: [pageWidth, pageHeight], margin: 0.5 });
     Doc.pipe(fs.createWriteStream(reportPath));
     labels.forEach((barcodeImage, idx) => {
-      Doc.image(logoPath, 12, 0, {
+      Doc.image(logoPath, 12, 1, {
         width: 110,
-        height: 45,
+        height: 33,
         align: "center",
       });
       Doc.image(barcodeImage, 7, 34, {
