@@ -91,6 +91,13 @@ exports.postGenBulkBarcode = async (req, res, next) => {
     const pageWidth = paperSettings.rows[0][2];
     const startBarcode = printDetails.range.from;
     const endBarcode = printDetails.range.to;
+    if (endBarcode - startBarcode > 1000) {
+      const error = new Error(
+        "barcodes number out of range! range must be 1000 barcodes or less"
+      );
+      error.statusCode = 422;
+      throw error;
+    }
     const numberOfBarcode = printDetails.number;
     let labels = [];
     for (let i = startBarcode; i <= endBarcode; ++i) {
@@ -108,7 +115,7 @@ exports.postGenBulkBarcode = async (req, res, next) => {
     }
     const reportName = "barcodes-" + Date.now() + ".pdf";
     const reportPath = path.join("barcodes", reportName);
-    const logoPath = "./images/mjTransparent.png";
+    const logoPath = "./images/ALMJAL.png";
     const fileUrl = `${req.protocol}s://${req.get(
       "host"
     )}/barcodes/${reportName}`;
